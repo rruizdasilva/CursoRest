@@ -7,6 +7,9 @@ import io.restassured.response.ValidatableResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static io.restassured.RestAssured.get;
+import static io.restassured.RestAssured.given;
+
 public class OlaMundoTest {
 
     @Test
@@ -18,4 +21,19 @@ public class OlaMundoTest {
         ValidatableResponse validacao = response.then();
         validacao.statusCode(200);
     }
- }
+
+    @Test
+    public void devoConhecerOutrasFormasRestAssured() {
+        get("http://restapi.wcaquino.me/ola").then().statusCode(200);
+    }
+
+    @Test
+    public void formaFluente() {
+        given() //Pré condições
+        .when() // Ação
+        .get("http://restapi.wcaquino.me/ola")
+        .then() // Assertivas
+//      .assertThat()
+        .statusCode(200);
+    }
+}

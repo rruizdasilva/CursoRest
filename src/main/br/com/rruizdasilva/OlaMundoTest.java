@@ -64,4 +64,17 @@ public class OlaMundoTest {
         assertThat("Joaquina", anyOf(is("Maria"), is("Joaquina")));
         assertThat("Joaquina", allOf(startsWith("Joa"), endsWith("ina"), containsString("qui")));
     }
+
+    @Test
+    public void devoValidarBody() {
+        given() //Pré condições
+                .when()
+                .get("http://restapi.wcaquino.me/ola")
+                .then()
+                .statusCode(200) // começar com as validações que têm maior impacto pode tornar o código mais performático
+                // ordem > do mais para o menos restritivo
+                .body(is("Ola Mundo!"))
+                .body(containsString("Mundo"))
+                .body(is(notNullValue()));
+    }
 }

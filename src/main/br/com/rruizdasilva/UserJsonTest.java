@@ -8,6 +8,8 @@ import org.hamcrest.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -76,6 +78,21 @@ public class UserJsonTest {
                 .then()
                 .statusCode(404)
                 .body("error", is("Usuário inexistente"))
+        ;
+    }
+
+    @Test
+    public void deveVerificarListaNaRaiz() {
+        given()
+                .when()
+                .get("http://restapi.wcaquino.me/users")
+                .then()
+                .statusCode(200)
+                .body("$", hasSize(3)) // o cifrão não é obrigatório. Podemos deixar em branco.
+                .body("name", hasItems("João da Silva", "Maria Joaquina", "Ana Júlia"))
+                .body("age[1]", is(25))
+                .body("filhos.name", hasItem(Arrays.asList("Zezinho", "Luizinho")))
+                .body("salary", contains(1234.5677f, 2500, null)); //tomar cuidado com float - deve inserir o f
         ;
     }
 }

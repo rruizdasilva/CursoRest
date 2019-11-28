@@ -8,6 +8,7 @@ import org.hamcrest.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.*;
@@ -16,24 +17,24 @@ import static org.hamcrest.Matchers.*;
 public class UserJsonTest {
 
     @Test
-    public void deveVerificarPrimeiroNivel(){
+    public void deveVerificarPrimeiroNivel() {
         given()
                 .when()
-                    .get("http://restapi.wcaquino.me/users/1")
+                .get("http://restapi.wcaquino.me/users/1")
                 .then()
-                    .statusCode(200)
-                    .body("id", Matchers.is(1))
-                    .body("name", containsString("Silva"))
-                    .body("age", greaterThan(18));
+                .statusCode(200)
+                .body("id", Matchers.is(1))
+                .body("name", containsString("Silva"))
+                .body("age", greaterThan(18));
     }
 
     @Test
-    public void deveVerificarPrimeiroNivelOutrasFormas(){
+    public void deveVerificarPrimeiroNivelOutrasFormas() {
         Response response = RestAssured.request(Method.GET, "http://restapi.wcaquino.me/users/1");
 
         //path
         Assert.assertEquals(new Integer(1), response.path("id"));
-        Assert.assertEquals(new Integer(1), response.path("%s","id"));
+        Assert.assertEquals(new Integer(1), response.path("%s", "id"));
 
         //json pathgit
         JsonPath jpath = new JsonPath(response.asString());
@@ -67,7 +68,7 @@ public class UserJsonTest {
                 .body("filhos[0].name", is("Zezinho"))
                 .body("filhos[1].name", is("Luizinho"))
                 .body("filhos.name", hasItems("Zezinho", "Luizinho"))
-                ;
+        ;
     }
 
     @Test
@@ -121,7 +122,19 @@ public class UserJsonTest {
                 .body("salary.min()", is(1234.5678f)) //tomar cuidado com float - deve inserir o f
                 .body("salary.findAll{it != null}.sum()", is(closeTo(3734.5678f, 0.001)))
                 .body("salary.findAll{it != null}.sum()", allOf(greaterThan(3000d), lessThan(5000d))) //traz o mesmo resultado da linha acima
-
         ;
+    }
+
+    @Test
+    public void devoUnirJsonPathComJava() {
+        ArrayList<String> names =
+                given()
+                        .when()
+                        .get("http://restapi.wcaquino.me/users")
+                        .then()
+                        .extract().path("name.findAll{it.startsWith('Maria')}");
+        Assert.assertEquals(1, names.size());
+        Assert.assertTrue(names.get(0).equalsIgnoreCase("mArIa Joaquina"));
+        Assert.assertEquals("maria joaquina".toUpperCase(), names.get(0).toUpperCase());
     }
 }

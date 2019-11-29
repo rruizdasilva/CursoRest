@@ -14,7 +14,7 @@ import java.util.Arrays;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class UserJsonTest {
+public class UserJsonAndXMLTest {
 
     @Test
     public void deveVerificarPrimeiroNivel() {

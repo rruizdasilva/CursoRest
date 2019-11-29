@@ -16,7 +16,7 @@ import java.util.Arrays;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class XMLRefactoredTest {
+public class StaticVariables {
 
     @BeforeClass
     public static void setup() {

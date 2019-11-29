@@ -39,6 +39,7 @@ public class RequestAndResponseSpecificationTest {
     @Test
     public void deveTrabalharComXML() {
         given()
+                .spec(requestSpec)
                 .when()
                 .get("/usersXML/3")
                 .then()

@@ -77,4 +77,43 @@ public class VerbosTest {
                 .body("salary", is(1234.5678f))
         ;
     }
+
+
+    @Test
+    public void devoCustomizarUsuarioParte1() {
+        given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body("{\"name\": \"Usuario alterado\", \"age\": 80}")
+                .when()
+                .put("https://restapi.wcaquino.me/users/1")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("id", is(1))
+                .body("name", is("Usuario alterado"))
+                .body("age", is(80))
+                .body("salary", is(1234.5678f))
+        ;
+    }
+
+    @Test
+    public void devoCustomizarUsuarioParte2() {
+        given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body("{\"name\": \"Usuario alterado\", \"age\": 80}")
+                .pathParam("entidade", "users")
+                .pathParam("userId", 1)
+                .when()
+                .put("https://restapi.wcaquino.me/{entidade}/{userId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("id", is(1))
+                .body("name", is("Usuario alterado"))
+                .body("age", is(80))
+                .body("salary", is(1234.5678f))
+        ;
+    }
 }

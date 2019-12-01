@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.*;
 public class VerbosTest {
 
     @Test
-    public void deveSalvarUsuario() {
+    public void devoSalvarUsuario() {
         given()
             .log().all()
             .contentType("application/json")
@@ -27,7 +27,7 @@ public class VerbosTest {
     }
 
     @Test
-    public void naoDeveSalvarUsuarioSemNome() {
+    public void naoDevoSalvarUsuarioSemNome() {
         given()
             .log().all()
             .contentType("application/json")
@@ -43,7 +43,7 @@ public class VerbosTest {
     }
 
     @Test
-    public void deveSalvarUsuarioXML() {
+    public void devoSalvarUsuarioXML() {
         given()
                 .log().all()
                 .contentType(ContentType.XML)
@@ -61,7 +61,7 @@ public class VerbosTest {
     }
 
     @Test
-    public void deveAlterarUsuario() {
+    public void devoAlterarUsuario() {
         given()
                 .log().all()
                 .contentType(ContentType.JSON)

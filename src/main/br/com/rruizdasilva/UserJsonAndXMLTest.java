@@ -36,7 +36,7 @@ public class UserJsonAndXMLTest {
         Assert.assertEquals(new Integer(1), response.path("id"));
         Assert.assertEquals(new Integer(1), response.path("%s", "id"));
 
-        //json pathgit
+        //json path git
         JsonPath jpath = new JsonPath(response.asString());
         Assert.assertEquals(1, jpath.getInt("id"));
 

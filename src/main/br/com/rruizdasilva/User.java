@@ -2,6 +2,7 @@ package br.com.rruizdasilva;
 
 public class User {
 
+    private Long id;
     private String name;
     private Integer age;
     private Double salary;
@@ -23,4 +24,17 @@ public class User {
         return salary;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", salary=" + salary +
+                '}';
+    }
 }

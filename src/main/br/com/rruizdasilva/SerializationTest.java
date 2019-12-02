@@ -1,5 +1,6 @@
 package br.com.rruizdasilva;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -17,17 +18,17 @@ public class SerializationTest {
         params.put("name", "Usuario via map");
         params.put("age", 25);
         given()
-                .log().all()
-                .contentType("application/json")
-                .body(params)
-                .when()
-                .post("https://restapi.wcaquino.me/users")
-                .then()
-                .log().all()
-                .statusCode(201)
-                .body("id", is(notNullValue()))
-                .body("name", is("Usuario via map"))
-                .body("age", is(25))
+            .log().all()
+            .contentType("application/json")
+            .body(params)
+        .when()
+            .post("https://restapi.wcaquino.me/users")
+        .then()
+            .log().all()
+            .statusCode(201)
+            .body("id", is(notNullValue()))
+            .body("name", is("Usuario via map"))
+            .body("age", is(25))
         ;
     }
 
@@ -35,17 +36,37 @@ public class SerializationTest {
     public void devoSalvarUsuarioUsandoObject() {
         User user = new User("Usuario via objeto", 35);
         given()
-                .log().all()
-                .contentType("application/json")
-                .body(user)
-                .when()
-                .post("https://restapi.wcaquino.me/users")
-                .then()
-                .log().all()
-                .statusCode(201)
-                .body("id", is(notNullValue()))
-                .body("name", is("Usuario via objeto"))
-                .body("age", is(35))
+            .log().all()
+            .contentType("application/json")
+            .body(user)
+        .when()
+            .post("https://restapi.wcaquino.me/users")
+        .then()
+            .log().all()
+            .statusCode(201)
+            .body("id", is(notNullValue()))
+            .body("name", is("Usuario via objeto"))
+            .body("age", is(35))
         ;
+    }
+
+    @Test
+    public void devoDeserealizarObjetoAoSalvarUsuario() {
+        User user = new User("Usuario deserealizado", 35);
+        User usuarioInserido = given()
+            .log().all()
+            .contentType("application/json")
+            .body(user)
+        .when()
+            .post("https://restapi.wcaquino.me/users")
+        .then()
+            .log().all()
+            .statusCode(201)
+            .extract().body().as(User.class);
+
+        System.out.println(usuarioInserido);
+        Assert.assertThat(usuarioInserido.getId(), notNullValue());
+        Assert.assertThat(usuarioInserido.getName(), is("Usuario deserealizado"));
+        Assert.assertEquals(new Integer(35), usuarioInserido.getAge());
     }
 }

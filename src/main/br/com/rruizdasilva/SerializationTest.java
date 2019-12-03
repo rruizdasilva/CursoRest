@@ -33,7 +33,7 @@ public class SerializationTest {
     }
 
     @Test
-    public void devoSalvarUsuarioUsandoObject() {
+    public void devoSalvarUsuarioUsandoObjectJson() {
         User user = new User("Usuario via objeto", 35);
         given()
             .log().all()
@@ -51,7 +51,7 @@ public class SerializationTest {
     }
 
     @Test
-    public void devoDeserealizarObjetoAoSalvarUsuario() {
+    public void devoDeserealizarObjetoAoSalvarUsuarioJson() {
         User user = new User("Usuario deserealizado", 35);
         User usuarioInserido = given()
             .log().all()

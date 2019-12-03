@@ -72,7 +72,7 @@ public class SerializationTest {
     }
 
     @Test
-    public void devoSalvarUsuarioViaXML() {
+    public void devoSerializarObjetoAoSalvarUsuarioXML() {
         User user = new User("Usuario XML", 40);
         given()
             .log().all()

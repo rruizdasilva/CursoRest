@@ -26,7 +26,7 @@ public class EnvioDadosTest {
         given()
             .log().all()
             .queryParam("format", "xml")
-            .queryParam("outra", "coisa")
+            .queryParam("outra", "coisa") //como não existe, será desconsiderado
         .when()
             .get("https://restapi.wcaquino.me/v2/users")
         .then()
@@ -34,6 +34,21 @@ public class EnvioDadosTest {
             .statusCode(200)
             .contentType(ContentType.XML)
             .contentType(containsString("utf-8"))
+        ;
+    }
+
+    @Test
+    public void devoEnviarValorViaHeader() {
+        given()
+                .log().all()
+                .accept(ContentType.XML)
+                .when()
+                .get("https://restapi.wcaquino.me/v2/users")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .contentType(ContentType.XML)
+                .contentType(containsString("utf-8"))
         ;
     }
 }

@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 public class SerializationTest {
 
@@ -87,5 +86,25 @@ public class SerializationTest {
             .body("user.name", is("Usuario XML"))
             .body("user.age", is("40"))
         ;
+    }
+
+    @Test
+    public void devoDeserealizarObjetoAoSalvarUsuarioXML() {
+        User user = new User("Usuario deserealizado", 40);
+        User usuarioInserido = given()
+                .log().all()
+                .contentType(ContentType.XML)
+                .body(user)
+                .when()
+                .post("https://restapi.wcaquino.me/usersXML")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body().as(User.class);
+
+        Assert.assertThat(usuarioInserido.getId(), notNullValue());
+        Assert.assertThat(usuarioInserido.getName(), is("Usuario deserealizado"));
+        Assert.assertThat(usuarioInserido.getAge(), is(40));
+        Assert.assertThat(usuarioInserido.getSalary(), nullValue());
     }
 }

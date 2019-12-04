@@ -1,12 +1,13 @@
 package br.com.rruizdasilva;
 
-import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
+import java.io.*;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 
 public class FileTest {
 
@@ -49,5 +50,24 @@ public class FileTest {
         .time(lessThan(2000L))
         .statusCode(413)
         ;
+    }
+
+    @Test
+    public void devoBaixarArquivo() throws IOException {
+        byte[] image = given()
+                .log().all()
+                .when()
+                .get("http://restapi.wcaquino.me/download")
+                .then()
+                // .log().all()
+                .statusCode(200)
+                .extract().asByteArray();
+
+        File imagem = new File("src/main/resources/file.jpg");
+        OutputStream out = new FileOutputStream(imagem);
+        out.write(image);
+        out.close();
+
+        Assert.assertThat(imagem.length(), lessThan(100000L));
     }
 }

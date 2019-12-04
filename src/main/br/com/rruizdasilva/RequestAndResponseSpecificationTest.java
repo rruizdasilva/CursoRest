@@ -4,18 +4,12 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
-import io.restassured.internal.path.xml.NodeImpl;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.request;
-import static org.hamcrest.Matchers.*;
 
 public class RequestAndResponseSpecificationTest {
     public static RequestSpecification requestSpec;

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class XMLTest {

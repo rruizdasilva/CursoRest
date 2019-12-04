@@ -1,17 +1,12 @@
 package br.com.rruizdasilva;
 
 import io.restassured.RestAssured;
-import io.restassured.http.Method;
 import io.restassured.internal.path.xml.NodeImpl;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;

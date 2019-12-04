@@ -36,4 +36,18 @@ public class FileTest {
         .body("name", is("users.pdf"))
         ;
     }
+
+    @Test
+    public void naoDevoFazerUploadArquivoGrande(){
+        given()
+        .log().all()
+        .multiPart("arquivo", new File("src/main/resources/Role of QA automation in Devops.pdf"))
+        .when()
+        .post("http://restapi.wcaquino.me/upload")
+        .then()
+        .log().all()
+        .time(lessThan(2000L))
+        .statusCode(413)
+        ;
+    }
 }

@@ -54,4 +54,17 @@ public class AuthTest {
             .body("main.temp", greaterThan(15f))
         ;
     }
+
+    @Test
+    public void naoDeveAcessarSemSenha(){
+        given()
+            .log().all()
+        .when()
+            .get("http://restapi.wcaquino.me/basicauth")
+        .then()
+            .log().all()
+            .statusCode(401)
+        ;
+
+    }
 }

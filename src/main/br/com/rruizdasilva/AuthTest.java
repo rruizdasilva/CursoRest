@@ -67,4 +67,18 @@ public class AuthTest {
         ;
 
     }
+
+    @Test
+    public void deveFazerAutenticacaoBasica(){
+        given()
+                .log().all()
+                .when()
+                .get("https://admin:senha@restapi.wcaquino.me/basicauth")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("status", is("logado"))
+        ;
+
+    }
 }

@@ -2,13 +2,17 @@ package br.com.rruizdasilva;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
+import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
+import static io.restassured.RestAssured.when;
+import static org.hamcrest.Matchers.*;
 
 public class AuthTest {
 
@@ -93,5 +97,50 @@ public class AuthTest {
                 .statusCode(200)
                 .body("status", is("logado"))
         ;
+    }
+
+    @Test
+    public void deveFazerAutenticacaoBasicaChallenge(){
+        given()
+                .log().all()
+                .auth().preemptive().basic("admin", "senha")
+                .when()
+                .get("https://restapi.wcaquino.me/basicauth2")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("status", is("logado"))
+        ;
+    }
+
+    @Test
+    public void deveFazerAutenticacaoComTokenJWT(){
+        Map<String, String> login = new HashMap<String, String>();
+        login.put("email",  "RogerSilva@roger.com");
+        login.put("senha", "123456");
+
+        // login na api
+        // receber o token
+        String token = given()
+                .log().all()
+                .body(login)
+                .contentType(ContentType.JSON)
+            .when()
+                .post("http://barrigarest.wcaquino.me/signin")
+            .then()
+                .log().all()
+                .statusCode(200)
+                .extract().path("token");
+
+        // obter as rotas
+        given()
+            .log().all()
+            .header("Authorization", "JWT " + token)
+        .when()
+            .get("http://barrigarest.wcaquino.me/contas")
+        .then()
+            .log().all()
+            .statusCode(200)
+            .body("nome", hasItem("Conta de teste"));
     }
 }
